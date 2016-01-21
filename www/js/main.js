@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(360, 640, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
 
@@ -10,6 +10,11 @@ var mainState = {
 
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
+
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+        game.scale.startFullScreen(false);
     },
 
     create: function () {
@@ -17,10 +22,10 @@ var mainState = {
 
         this.pipes = game.add.group();
         this.pipes.enableBody = true;
-        this.pipes.createMultiple(20, 'pipe');
+        this.pipes.createMultiple(30, 'pipe');
         this.pipesTimer = this.game.time.events.loop(1500, this.addRowOfPipes, this);
 
-        this.bird = this.game.add.sprite(300, 245, 'bird');
+        this.bird = this.game.add.sprite(game.world.width - 100 , game.world.height / 2, 'bird');
         game.physics.arcade.enable(this.bird);
         this.bird.body.gravity.y = 1000;
 
@@ -34,7 +39,7 @@ var mainState = {
 
 
         this.score = 0;
-        this.labelScore = this.game.add.text(350, 20, "0", {font: "30px Arial", fill: "#ffffff"});
+        this.labelScore = this.game.add.text(game.world.width - 100, 20, "0", {fontSize: '32px', fill: "#ffffff"});
 
         // Add the jump sound
         // this.jumpSound = this.game.add.audio('jump');
@@ -56,10 +61,10 @@ var mainState = {
     addPointMark: function () {
         var pointMark = this.pointMarks.getFirstDead();
 
-        pointMark.reset(0, 0);
+        pointMark.reset(-50, 0);
 
         pointMark.scale.y = game.world.height;
-        pointMark.body.velocity.x = +200;
+        pointMark.body.velocity.x = game.world.width / 2;
     },
 
     update: function () {
@@ -117,7 +122,7 @@ var mainState = {
         var pipe = this.pipes.getFirstDead();
 
         pipe.reset(x, y);
-        pipe.body.velocity.x = 200;
+        pipe.body.velocity.x = game.world.width / 2;
         pipe.checkWorldBounds = true;
         pipe.outOfBoundsKill = true;
     },
@@ -127,7 +132,7 @@ var mainState = {
 
         var hole = Math.floor(Math.random() * 5) + 1;
 
-        for (var i = 0; i < 8; i++)
+        for (var i = 0; i < 11; i++)
             if (i != hole && i != hole + 1)
                 this.addOnePipe(0, i * 60 + 10);
     }

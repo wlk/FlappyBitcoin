@@ -60,7 +60,7 @@ var mainState = {
         pointMark.reset(game.world.width + 50, 0);
 
         pointMark.scale.y = game.world.height;
-        pointMark.body.velocity.x = - game.world.width / 2;
+        pointMark.body.velocity.x = -260;
     },
 
     update: function () {
@@ -118,7 +118,7 @@ var mainState = {
         var pipe = this.pipes.getFirstDead();
 
         pipe.reset(x, y);
-        pipe.body.velocity.x = - game.world.width / 2;
+        pipe.body.velocity.x = -260;
         pipe.checkWorldBounds = true;
         pipe.outOfBoundsKill = true;
     },

@@ -20,18 +20,18 @@ var mainState = {
         this.pipes.createMultiple(20, 'pipe');
         this.pipesTimer = this.game.time.events.loop(1500, this.addRowOfPipes, this);
 
-        this.bird = this.game.add.sprite(100, 245, 'bird');
+        this.bird = this.game.add.sprite(300, 245, 'bird');
         game.physics.arcade.enable(this.bird);
         this.bird.body.gravity.y = 1000;
 
         // New anchor position
-        this.bird.anchor.setTo(-0.2, 0.5);
+        this.bird.anchor.setTo(0.2, 0.5);
 
         var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
 
         this.score = 0;
-        this.labelScore = this.game.add.text(20, 20, "0", {font: "30px Arial", fill: "#ffffff"});
+        this.labelScore = this.game.add.text(350, 20, "0", {font: "30px Arial", fill: "#ffffff"});
 
         // Add the jump sound
         // this.jumpSound = this.game.add.audio('jump');
@@ -53,10 +53,10 @@ var mainState = {
     addPointMark: function () {
         var pointMark = this.pointMarks.getFirstDead();
 
-        pointMark.reset(450, 0);
+        pointMark.reset(0, 0);
 
         pointMark.scale.y = game.world.height;
-        pointMark.body.velocity.x = -200;
+        pointMark.body.velocity.x = +200;
     },
 
     update: function () {
@@ -67,8 +67,8 @@ var mainState = {
         game.physics.arcade.overlap(this.bird, this.pointMarks, this.addPoint, null, this);
 
         // Slowly rotate the bird downward, up to a certain point.
-        if (this.bird.angle < 10)
-            this.bird.angle += 1;
+        if (this.bird.angle >= -10)
+            this.bird.angle -= 1;
     },
 
     jump: function () {
@@ -79,7 +79,7 @@ var mainState = {
         this.bird.body.velocity.y = -350;
 
         // Jump animation
-        game.add.tween(this.bird).to({angle: -10}, 100).start();
+        game.add.tween(this.bird).to({angle: 10}, 100).start();
 
         // Play sound
         // this.jumpSound.play();
@@ -114,7 +114,7 @@ var mainState = {
         var pipe = this.pipes.getFirstDead();
 
         pipe.reset(x, y);
-        pipe.body.velocity.x = -200;
+        pipe.body.velocity.x = 200;
         pipe.checkWorldBounds = true;
         pipe.outOfBoundsKill = true;
     },
@@ -126,7 +126,7 @@ var mainState = {
 
         for (var i = 0; i < 8; i++)
             if (i != hole && i != hole + 1)
-                this.addOnePipe(400, i * 60 + 10);
+                this.addOnePipe(0, i * 60 + 10);
     }
 };
 

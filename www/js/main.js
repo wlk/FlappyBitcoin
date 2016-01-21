@@ -30,6 +30,9 @@ var mainState = {
         var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
 
+        game.input.onTap.add(this.jump, this);
+
+
         this.score = 0;
         this.labelScore = this.game.add.text(350, 20, "0", {font: "30px Arial", fill: "#ffffff"});
 
@@ -131,4 +134,3 @@ var mainState = {
 };
 
 game.state.add('main', mainState);
-game.state.start('main'); 

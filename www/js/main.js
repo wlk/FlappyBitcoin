@@ -1,3 +1,5 @@
+"use strict";
+
 var game = new Phaser.Game(360, 640, Phaser.AUTO, 'gameDiv');
 
 var mainState = {
@@ -11,10 +13,7 @@ var mainState = {
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
 
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
-        game.scale.startFullScreen(false);
     },
 
     create: function () {
@@ -36,7 +35,6 @@ var mainState = {
         spaceKey.onDown.add(this.jump, this);
 
         game.input.onTap.add(this.jump, this);
-
 
         this.score = 0;
         this.labelScore = this.game.add.text(game.world.width - 100, 20, "0", {fontSize: '32px', fill: "#ffffff"});

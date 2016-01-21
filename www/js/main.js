@@ -64,7 +64,7 @@ var mainState = {
     },
 
     update: function () {
-        if (this.bird.inWorld == false)
+        if (!this.bird.inWorld)
             this.restartGame();
 
         game.physics.arcade.overlap(this.bird, this.pipes, this.hitPipe, null, this);
@@ -77,7 +77,7 @@ var mainState = {
 
     jump: function () {
         // If the bird is dead, he can't jump
-        if (this.bird.alive == false)
+        if (!this.bird.alive)
             return;
 
         this.bird.body.velocity.y = -350;
@@ -91,7 +91,7 @@ var mainState = {
 
     hitPipe: function () {
         // If the bird has already hit a pipe, we have nothing to do
-        if (this.bird.alive == false)
+        if (!this.bird.alive)
             return;
 
         // Set the alive property of the bird to false

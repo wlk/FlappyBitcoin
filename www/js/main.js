@@ -7,8 +7,8 @@ var mainState = {
     preload: function () {
         game.stage.backgroundColor = '#71c5cf';
 
-        game.load.image('bird', 'assets/bird.png');
-        game.load.image('pipe', 'assets/pipe.png');
+        game.load.image('bird', 'assets/bitcoin.png');
+        game.load.atlas('pipe', 'assets/altcoins.png', 'assets/altcoins.json');
 
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
@@ -37,7 +37,7 @@ var mainState = {
         game.input.onTap.add(this.jump, this);
 
         this.score = 0;
-        this.labelScore = this.game.add.text(100, 20, "0", {fontSize: '32px', fill: "#ffffff"});
+        this.labelScore = this.game.add.text(100, 20, "0", {fontSize: '32px', fill: "#000000"});
 
         // Add the jump sound
         // this.jumpSound = this.game.add.audio('jump');
@@ -116,8 +116,8 @@ var mainState = {
 
     addOnePipe: function (x, y) {
         var pipe = this.pipes.getFirstDead();
-
-        pipe.reset(x, y);
+        pipe.frame = Math.floor(Math.random() * 14);
+        pipe.reset(x,y);
         pipe.body.velocity.x = -260;
         pipe.checkWorldBounds = true;
         pipe.outOfBoundsKill = true;
@@ -128,9 +128,9 @@ var mainState = {
 
         var hole = Math.floor(Math.random() * 3) + 1;
 
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < 8; i++) {
             if (i != hole && i != hole + 1 /*&& i != hole + 2*/) {
-                this.addOnePipe(game.world.width, i * 60 + 10);
+                this.addOnePipe(game.world.width, i * 50);
             }
         }
     }

@@ -1,13 +1,13 @@
 "use strict";
 
 var app = {
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         game.state.start('main');
     }
 };

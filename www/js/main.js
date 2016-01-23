@@ -117,7 +117,7 @@ var mainState = {
     addOnePipe: function (x, y) {
         var pipe = this.pipes.getFirstDead();
         pipe.frame = Math.floor(Math.random() * 14);
-        pipe.reset(x,y);
+        pipe.reset(x, y);
         pipe.body.velocity.x = -260;
         pipe.checkWorldBounds = true;
         pipe.outOfBoundsKill = true;

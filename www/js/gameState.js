@@ -32,6 +32,10 @@ var gameState = {
         this.pointMarks.createMultiple(4);
     },
 
+    handleBackButton: function () {
+        game.state.start('start');
+    },
+
     addPoint: function (bird, mark) {
         mark.kill();
 

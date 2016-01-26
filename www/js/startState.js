@@ -29,6 +29,10 @@ var startState = {
 
     },
 
+    handleBackButton: function () {
+        navigator.app.exitApp();
+    },
+
     startClicked: function () {
         game.state.start('game');
     },

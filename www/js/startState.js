@@ -3,25 +3,23 @@
 var startState = {
 
     preload: function () {
+        game.stage.backgroundColor = '#71c5cf';
+
+        game.load.image('coin', 'assets/bitcoin.png');
+        game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');
+
+        // Load the jump sound
+        // game.load.audio('jump', 'assets/jump.wav');
+
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+        game.physics.startSystem(Phaser.Physics.ARCADE);
     },
 
     create: function () {
+        game.state.start('game');
     },
 
     update: function () {
-        this.altcoins.forEachAlive(function (p) {
-            this.checkPipeHit(this.coin, p);
-        }, this);
-
-        if (!this.coin.inWorld)
-            this.restartGame();
-
-        game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
-
-        // Slowly rotate the coin downward, up to a certain point.
-        /*if (this.coin.angle < 10)
-         this.coin.angle += 1;*/
     }
 };
-
-game.state.add('start', startState);

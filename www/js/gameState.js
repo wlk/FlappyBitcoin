@@ -1,23 +1,7 @@
-"use strict";
-
-var game = new Phaser.Game(640, 360, Phaser.AUTO, 'gameDiv');
-
 var gameState = {
-    preload: function () {
-        game.stage.backgroundColor = '#71c5cf';
-
-        game.load.image('coin', 'assets/bitcoin.png');
-        game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');
-
-        // Load the jump sound
-        // game.load.audio('jump', 'assets/jump.wav');
-
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    },
+    preload: function () {},
 
     create: function () {
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
         this.altcoins = game.add.group();
         this.altcoins.enableBody = true;
         this.altcoins.createMultiple(30, 'altcoins');
@@ -122,7 +106,7 @@ var gameState = {
     },
 
     restartGame: function () {
-        game.state.start('main');
+        game.state.start('game');
     },
 
     addOneAltcoin: function (x, y) {
@@ -146,5 +130,3 @@ var gameState = {
         }
     }
 };
-
-game.state.add('main', gameState);

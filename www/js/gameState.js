@@ -77,7 +77,7 @@ var gameState = {
         // this.jumpSound.play();
     },
 
-    circlesColliding: function (bird, pipe) {
+    areColliding: function (bird, pipe) {
         return Phaser.Circle.intersects(
             new Phaser.Circle(bird.x + 25, bird.y + 25, bird.width),
             new Phaser.Circle(pipe.x + 25, pipe.y + 25, pipe.width)
@@ -85,7 +85,7 @@ var gameState = {
     },
 
     checkPipeHit: function (bird, pipe) {
-        if (this.circlesColliding(bird, pipe)) {
+        if (this.areColliding(bird, pipe)) {
             // If the coin has already hit a pipe, we have nothing to do
             if (this.coin.alive){
                 this.handleDeath();

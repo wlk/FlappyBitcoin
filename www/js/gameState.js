@@ -52,7 +52,7 @@ var gameState = {
         }, this);
 
         if (!this.coin.inWorld)
-            this.restartGame();
+            this.handleDeath();
 
         game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
 
@@ -85,24 +85,40 @@ var gameState = {
     checkPipeHit: function (bird, pipe) {
         if (this.circlesColliding(bird, pipe)) {
             // If the coin has already hit a pipe, we have nothing to do
-            if (!this.coin.alive)
-                return;
-
-            // Set the alive property of the coin to false
-            this.coin.alive = false;
-
-            // Prevent new altcoins from appearing
-            this.game.time.events.remove(this.altcoinsTimer);
-
-            // Go through all the altcoins, and stop their movement
-            this.altcoins.forEach(function (p) {
-                p.body.velocity.x = 0;
-            }, this);
-
-            this.pointMarks.forEach(function (p) {
-                p.body.velocity.x = 0;
-            }, this);
+            if (this.coin.alive){
+                this.handleDeath();
+            }
         }
+    },
+
+    handleDeath: function () {
+        // Set the alive property of the coin to false
+        this.coin.alive = false;
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.4, this.displayDeathMenu, this);
+
+        // Prevent new altcoins from appearing
+        this.game.time.events.remove(this.altcoinsTimer);
+
+        // Go through all the altcoins, and stop their movement
+        this.altcoins.forEach(function (p) {
+            p.body.velocity.x = 0;
+        }, this);
+
+        this.pointMarks.forEach(function (p) {
+            p.body.velocity.x = 0;
+        }, this);
+    },
+
+    displayDeathMenu: function () {
+        this.menu = this.game.add.bitmapText(this.game.width / 2, this.game.height / 2, 'carrier_command','Game Over', 20);
+
+        this.menu.anchor.setTo(0.5, 0.5);
+        game.input.onDown.add(this.continueAfterDeath, this);
+    },
+
+    continueAfterDeath: function () {
+        this.menu.destroy();
+        this.restartGame();
     },
 
     restartGame: function () {

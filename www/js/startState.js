@@ -8,6 +8,10 @@ var startState = {
         game.load.image('coin', 'assets/bitcoin.png');
         game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');
 
+        game.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
+
+
+        game.load.image('menu', 'assets/altcoins.png', 676, 52);
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
 

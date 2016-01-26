@@ -2,13 +2,12 @@
 
 var game = new Phaser.Game(640, 360, Phaser.AUTO, 'gameDiv');
 
-var mainState = {
-
+var gameState = {
     preload: function () {
         game.stage.backgroundColor = '#71c5cf';
 
-        game.load.image('bird', 'assets/bitcoin.png');
-        game.load.atlas('pipe', 'assets/altcoins.png', 'assets/altcoins.json');
+        game.load.image('coin', 'assets/bitcoin.png');
+        game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');
 
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
@@ -19,17 +18,17 @@ var mainState = {
     create: function () {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.pipes = game.add.group();
-        this.pipes.enableBody = true;
-        this.pipes.createMultiple(30, 'pipe');
-        this.pipesTimer = this.game.time.events.loop(1500, this.addRowOfPipes, this);
+        this.altcoins = game.add.group();
+        this.altcoins.enableBody = true;
+        this.altcoins.createMultiple(30, 'altcoins');
+        this.altcoinsTimer = this.game.time.events.loop(1500, this.addRowOfAltcoins, this);
 
-        this.bird = this.game.add.sprite(100, game.world.height / 2, 'bird');
-        game.physics.arcade.enable(this.bird);
-        this.bird.body.gravity.y = 1300;
+        this.coin = this.game.add.sprite(100, game.world.height / 2, 'coin');
+        game.physics.arcade.enable(this.coin);
+        this.coin.body.gravity.y = 1300;
 
         // New anchor position
-        // this.bird.anchor.setTo(0.2, 0.5);
+        // this.coin.anchor.setTo(0.2, 0.5);
 
         var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
@@ -64,29 +63,29 @@ var mainState = {
     },
 
     update: function () {
-        this.pipes.forEachAlive(function (p) {
-            this.checkPipeHit(this.bird, p);
+        this.altcoins.forEachAlive(function (p) {
+            this.checkPipeHit(this.coin, p);
         }, this);
 
-        if (!this.bird.inWorld)
+        if (!this.coin.inWorld)
             this.restartGame();
 
-        game.physics.arcade.overlap(this.bird, this.pointMarks, this.addPoint, null, this);
+        game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
 
-        // Slowly rotate the bird downward, up to a certain point.
-        /*if (this.bird.angle < 10)
-         this.bird.angle += 1;*/
+        // Slowly rotate the coin downward, up to a certain point.
+        /*if (this.coin.angle < 10)
+         this.coin.angle += 1;*/
     },
 
     jump: function () {
-        // If the bird is dead, he can't jump
-        if (!this.bird.alive)
+        // If the coin is dead, he can't jump
+        if (!this.coin.alive)
             return;
 
-        this.bird.body.velocity.y = -350;
+        this.coin.body.velocity.y = -350;
 
         // Jump animation
-        //game.add.tween(this.bird).to({angle: -10}, 100).start();
+        //game.add.tween(this.coin).to({angle: -10}, 100).start();
 
         // Play sound
         // this.jumpSound.play();
@@ -101,18 +100,18 @@ var mainState = {
 
     checkPipeHit: function (bird, pipe) {
         if (this.circlesColliding(bird, pipe)) {
-            // If the bird has already hit a pipe, we have nothing to do
-            if (!this.bird.alive)
+            // If the coin has already hit a pipe, we have nothing to do
+            if (!this.coin.alive)
                 return;
 
-            // Set the alive property of the bird to false
-            this.bird.alive = false;
+            // Set the alive property of the coin to false
+            this.coin.alive = false;
 
-            // Prevent new pipes from appearing
-            this.game.time.events.remove(this.pipesTimer);
+            // Prevent new altcoins from appearing
+            this.game.time.events.remove(this.altcoinsTimer);
 
-            // Go through all the pipes, and stop their movement
-            this.pipes.forEach(function (p) {
+            // Go through all the altcoins, and stop their movement
+            this.altcoins.forEach(function (p) {
                 p.body.velocity.x = 0;
             }, this);
 
@@ -126,26 +125,26 @@ var mainState = {
         game.state.start('main');
     },
 
-    addOnePipe: function (x, y) {
-        var pipe = this.pipes.getFirstDead();
-        pipe.frame = Math.floor(Math.random() * 14);
-        pipe.reset(x, y);
-        pipe.body.velocity.x = -260;
-        pipe.checkWorldBounds = true;
-        pipe.outOfBoundsKill = true;
+    addOneAltcoin: function (x, y) {
+        var altcoin = this.altcoins.getFirstDead();
+        altcoin.frame = Math.floor(Math.random() * 14);
+        altcoin.reset(x, y);
+        altcoin.body.velocity.x = -260;
+        altcoin.checkWorldBounds = true;
+        altcoin.outOfBoundsKill = true;
     },
 
-    addRowOfPipes: function () {
+    addRowOfAltcoins: function () {
         this.addPointMark();
 
         var hole = Math.floor(Math.random() * 3) + 1;
 
         for (var i = 0; i < 8; i++) {
             if (i != hole && i != hole + 1 /*&& i != hole + 2*/) {
-                this.addOnePipe(game.world.width, i * 50);
+                this.addOneAltcoin(game.world.width, i * 50);
             }
         }
     }
 };
 
-game.state.add('main', mainState);
+game.state.add('main', gameState);

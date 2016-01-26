@@ -29,7 +29,7 @@ var mainState = {
         this.bird.body.gravity.y = 1300;
 
         // New anchor position
-        this.bird.anchor.setTo(0.2, 0.5);
+        // this.bird.anchor.setTo(0.2, 0.5);
 
         var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
@@ -64,15 +64,18 @@ var mainState = {
     },
 
     update: function () {
+        this.pipes.forEachAlive(function (p) {
+            this.checkPipeHit(this.bird, p);
+        }, this);
+
         if (!this.bird.inWorld)
             this.restartGame();
 
-        game.physics.arcade.overlap(this.bird, this.pipes, this.hitPipe, null, this);
         game.physics.arcade.overlap(this.bird, this.pointMarks, this.addPoint, null, this);
 
         // Slowly rotate the bird downward, up to a certain point.
-        if (this.bird.angle < 10)
-            this.bird.angle += 1;
+        /*if (this.bird.angle < 10)
+         this.bird.angle += 1;*/
     },
 
     jump: function () {
@@ -83,31 +86,40 @@ var mainState = {
         this.bird.body.velocity.y = -350;
 
         // Jump animation
-        game.add.tween(this.bird).to({angle: -10}, 100).start();
+        //game.add.tween(this.bird).to({angle: -10}, 100).start();
 
         // Play sound
         // this.jumpSound.play();
     },
 
-    hitPipe: function () {
-        // If the bird has already hit a pipe, we have nothing to do
-        if (!this.bird.alive)
-            return;
+    circlesColliding: function (bird, pipe) {
+        return Phaser.Circle.intersects(
+            new Phaser.Circle(bird.x + 25, bird.y + 25, bird.width),
+            new Phaser.Circle(pipe.x + 25, pipe.y + 25, pipe.width)
+        );
+    },
 
-        // Set the alive property of the bird to false
-        this.bird.alive = false;
+    checkPipeHit: function (bird, pipe) {
+        if (this.circlesColliding(bird, pipe)) {
+            // If the bird has already hit a pipe, we have nothing to do
+            if (!this.bird.alive)
+                return;
 
-        // Prevent new pipes from appearing
-        this.game.time.events.remove(this.pipesTimer);
+            // Set the alive property of the bird to false
+            this.bird.alive = false;
 
-        // Go through all the pipes, and stop their movement
-        this.pipes.forEach(function (p) {
-            p.body.velocity.x = 0;
-        }, this);
+            // Prevent new pipes from appearing
+            this.game.time.events.remove(this.pipesTimer);
 
-        this.pointMarks.forEach(function (p) {
-            p.body.velocity.x = 0;
-        }, this);
+            // Go through all the pipes, and stop their movement
+            this.pipes.forEach(function (p) {
+                p.body.velocity.x = 0;
+            }, this);
+
+            this.pointMarks.forEach(function (p) {
+                p.body.velocity.x = 0;
+            }, this);
+        }
     },
 
     restartGame: function () {

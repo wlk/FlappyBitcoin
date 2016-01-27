@@ -13,10 +13,10 @@ var gameState = {
 
         this.altcoins = game.add.group();
         this.altcoins.enableBody = true;
-        this.altcoins.createMultiple(30, 'altcoins');
+        this.altcoins.createMultiple(20, 'altcoins');
         this.altcoinsTimer = game.time.events.loop(1500, this.addRowOfAltcoins, this);
 
-        this.coin = game.add.sprite(100, game.world.height - 250 , 'coin');
+        this.coin = game.add.sprite(100, game.world.height - 250, 'coin');
 
         this.bottom = game.add.sprite(0, game.world.height - 10, 'bottom');
 
@@ -34,11 +34,10 @@ var gameState = {
         // New anchor position
         this.coin.anchor.setTo(0.5, 0.5);
 
-        var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceKey.onDown.add(this.jump, this);
+        game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.jump, this);
 
         game.input.onTap.add(this.jump, this);
-        
+
         // Add the jump sound
         // this.jumpSound = game.add.audio('jump');
 
@@ -67,13 +66,15 @@ var gameState = {
     },
 
     update: function () {
-        if(this.coin.alive){
-            this.altcoins.forEachAlive(function (p) {
-                this.checkPipeHit(this.coin, p);
-            }, this);
-
+        if (this.coin.alive) {
             game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
             game.physics.arcade.overlap(this.coin, this.bottom, this.handleDeath, null, this);
+
+            var coinCircle = new Phaser.Circle(this.coin.x, this.coin.y, this.coin.width);
+            this.altcoins.forEachAlive(function (p) {
+                this.checkPipeHit(coinCircle, p);
+            }, this);
+
 
             // Slowly rotate the coin downward, up to a certain point.
             /*if (this.coin.angle < 10)
@@ -95,15 +96,15 @@ var gameState = {
         // this.jumpSound.play();
     },
 
-    areColliding: function (coin, altcoin) {
+    areColliding: function (coinCircle, altcoin) {
         return Phaser.Circle.intersects(
-            new Phaser.Circle(coin.x, coin.y, coin.width),
+            coinCircle,
             new Phaser.Circle(altcoin.x + 25, altcoin.y + 25, altcoin.width)
         );
     },
 
-    checkPipeHit: function (bird, pipe) {
-        if (this.areColliding(bird, pipe)) {
+    checkPipeHit: function (coinCircle, pipe) {
+        if (this.areColliding(coinCircle, pipe)) {
             // If the coin has already hit a pipe, we have nothing to do
             if (this.coin.alive) {
                 this.handleDeath();
@@ -122,11 +123,11 @@ var gameState = {
         game.time.events.remove(this.altcoinsTimer);
 
         // Go through all the altcoins, and stop their movement
-        this.altcoins.forEach(function (p) {
+        this.altcoins.forEachAlive(function (p) {
             p.body.velocity.x = 0;
         }, this);
 
-        this.pointMarks.forEach(function (p) {
+        this.pointMarks.forEachAlive(function (p) {
             p.body.velocity.x = 0;
         }, this);
     },
@@ -151,7 +152,7 @@ var gameState = {
         var scoreText = game.add.bitmapText(game.width / 2, game.height / 2 + 10, 'carrier_command', 'Score: ' + this.score, 20);
         scoreText.anchor.setTo(0.5, 0.5);
 
-        if(game.topScore > 0){
+        if (game.topScore > 0) {
             var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 50, 'carrier_command', 'Record: ' + game.topScore, 20);
             yourRecordText.anchor.setTo(0.5, 0.5);
         }

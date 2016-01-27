@@ -3,8 +3,10 @@
 var startState = {
 
     preload: function () {
-        game.stage.backgroundColor = '#71c5cf';
+        game.renderer.renderSession.roundPixels = true;
 
+
+        game.stage.backgroundColor = '#71c5cf';
         game.load.image('coin', 'assets/bitcoin.png');
         game.load.image('bottom', 'assets/bottom.png');
         game.load.image('top', 'assets/top.png');

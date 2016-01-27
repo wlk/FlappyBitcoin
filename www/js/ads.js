@@ -17,7 +17,7 @@ if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
 } else { // for windows phone
     adMobId = {
         banner: 'ca-app-pub-xxx/zzz',
-        interstitial: 'ca-app-pub-xxx/kkk',
+        interstitial: 'ca-app-pub-5829945009169600/1615030367',
         isTesting: true
     };
 }

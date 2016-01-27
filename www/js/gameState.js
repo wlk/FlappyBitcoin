@@ -7,6 +7,10 @@ var gameState = {
     create: function () {
         ++game.sessionPlays;
 
+        this.pointMarks = game.add.group();
+        this.pointMarks.enableBody = true;
+        this.pointMarks.createMultiple(4);
+
         this.altcoins = game.add.group();
         this.altcoins.enableBody = true;
         this.altcoins.createMultiple(30, 'altcoins');
@@ -34,16 +38,12 @@ var gameState = {
         spaceKey.onDown.add(this.jump, this);
 
         game.input.onTap.add(this.jump, this);
-
-        this.score = 0;
-        this.labelScore = game.add.text(100, 20, "0", {fontSize: '32px', fill: "#000000"});
-
+        
         // Add the jump sound
         // this.jumpSound = game.add.audio('jump');
 
-        this.pointMarks = game.add.group();
-        this.pointMarks.enableBody = true;
-        this.pointMarks.createMultiple(4);
+        this.score = 0;
+        this.labelScore = game.add.bitmapText(100, 20, 'carrier_command', 'Score: 0', 20);
     },
 
     handleBackButton: function () {
@@ -54,7 +54,7 @@ var gameState = {
         mark.kill();
 
         this.score += 1;
-        this.labelScore.text = this.score;
+        this.labelScore.text = "Score: " + this.score;
     },
 
     addPointMark: function () {
@@ -132,6 +132,8 @@ var gameState = {
     },
 
     displayDeathMenu: function () {
+        this.labelScore.kill();
+
         if (this.score > game.topScore) {
             game.topScore = this.score;
         }
@@ -143,11 +145,12 @@ var gameState = {
             }
         }
 
-        this.menu = game.add.bitmapText(game.width / 2, game.height / 2 - 40, 'carrier_command', 'Game Over', 30);
-        this.menu.anchor.setTo(0.5, 0.5);
+        var menu = game.add.bitmapText(game.width / 2, game.height / 2 - 40, 'carrier_command', 'Game Over', 30);
+        menu.anchor.setTo(0.5, 0.5);
 
         var scoreText = game.add.bitmapText(game.width / 2, game.height / 2 + 10, 'carrier_command', 'Score: ' + this.score, 20);
         scoreText.anchor.setTo(0.5, 0.5);
+
         if(game.topScore > 0){
             var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 50, 'carrier_command', 'Record: ' + game.topScore, 20);
             yourRecordText.anchor.setTo(0.5, 0.5);
@@ -157,7 +160,6 @@ var gameState = {
     },
 
     continueAfterDeath: function () {
-        this.menu.destroy();
         this.restartGame();
     },
 

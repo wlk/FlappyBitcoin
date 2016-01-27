@@ -23,6 +23,7 @@ var startState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         game.sessionPlays = 0;
+        game.topScore = 0;
 
         if (AdMob) {
             AdMob.prepareInterstitial({adId: adMobId.interstitial, autoShow: false, isTesting: adMobId.isTesting});

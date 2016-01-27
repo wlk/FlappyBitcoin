@@ -132,6 +132,10 @@ var gameState = {
     },
 
     displayDeathMenu: function () {
+        if (this.score > game.topScore) {
+            game.topScore = this.score;
+        }
+
         if (game.sessionPlays >= 10 && game.sessionPlays % 10 == 0) {
             if (AdMob) {
                 AdMob.showInterstitial();
@@ -139,9 +143,15 @@ var gameState = {
             }
         }
 
-        this.menu = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command', 'Game Over', 20);
-
+        this.menu = game.add.bitmapText(game.width / 2, game.height / 2 - 40, 'carrier_command', 'Game Over', 30);
         this.menu.anchor.setTo(0.5, 0.5);
+
+        var scoreText = game.add.bitmapText(game.width / 2, game.height / 2 + 10, 'carrier_command', 'Score: ' + this.score, 20);
+        scoreText.anchor.setTo(0.5, 0.5);
+        if(game.topScore > 0){
+            var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 50, 'carrier_command', 'Record: ' + game.topScore, 20);
+            yourRecordText.anchor.setTo(0.5, 0.5);
+        }
         game.input.onDown.add(this.continueAfterDeath, this);
         game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.continueAfterDeath, this);
     },

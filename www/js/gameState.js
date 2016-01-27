@@ -28,7 +28,7 @@ var gameState = {
         this.coin.body.gravity.y = 1300;
 
         // New anchor position
-        // this.coin.anchor.setTo(0.2, 0.5);
+        this.coin.anchor.setTo(0.5, 0.5);
 
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
@@ -95,10 +95,10 @@ var gameState = {
         // this.jumpSound.play();
     },
 
-    areColliding: function (bird, pipe) {
+    areColliding: function (coin, altcoin) {
         return Phaser.Circle.intersects(
-            new Phaser.Circle(bird.x + 25, bird.y + 25, bird.width),
-            new Phaser.Circle(pipe.x + 25, pipe.y + 25, pipe.width)
+            new Phaser.Circle(coin.x, coin.y, coin.width),
+            new Phaser.Circle(altcoin.x + 25, altcoin.y + 25, altcoin.width)
         );
     },
 
@@ -114,7 +114,7 @@ var gameState = {
     handleDeath: function () {
         // Set the alive property of the coin to false
         this.coin.alive = false;
-
+        game.add.tween(this.coin).to({angle: 72}, 100).start();
         //var delay = false ? Phaser.Timer.SECOND * 0.4 : 0;
         game.time.events.add(0, this.displayDeathMenu, this);
 

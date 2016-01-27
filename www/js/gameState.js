@@ -12,13 +12,16 @@ var gameState = {
 
         this.coin = game.add.sprite(100, game.world.height / 2, 'coin');
 
-        this.top = game.add.sprite(0, 0, 'top');
         this.bottom = game.add.sprite(0, game.world.height - 10, 'bottom');
 
-        this.top.enableBody = true;
         this.bottom.enableBody = true;
 
         game.physics.arcade.enable(this.coin);
+        this.coin.body.collideWorldBounds = true;
+
+        game.physics.arcade.enable(this.bottom);
+
+        this.bottom.body.immovable = true;
 
         this.coin.body.gravity.y = 1300;
 
@@ -66,11 +69,7 @@ var gameState = {
             this.checkPipeHit(this.coin, p);
         }, this);
 
-        if (!this.coin.inWorld)
-            this.handleDeath();
-
         game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
-        game.physics.arcade.overlap(this.coin, this.top, this.handleDeath, null, this);
         game.physics.arcade.overlap(this.coin, this.bottom, this.handleDeath, null, this);
 
         // Slowly rotate the coin downward, up to a certain point.
@@ -111,7 +110,9 @@ var gameState = {
     handleDeath: function () {
         // Set the alive property of the coin to false
         this.coin.alive = false;
-        game.time.events.add(Phaser.Timer.SECOND * 0.4, this.displayDeathMenu, this);
+
+        //var delay = false ? Phaser.Timer.SECOND * 0.4 : 0;
+        game.time.events.add(0, this.displayDeathMenu, this);
 
         // Prevent new altcoins from appearing
         game.time.events.remove(this.altcoinsTimer);
@@ -131,6 +132,7 @@ var gameState = {
 
         this.menu.anchor.setTo(0.5, 0.5);
         game.input.onDown.add(this.continueAfterDeath, this);
+        game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.continueAfterDeath, this);
     },
 
     continueAfterDeath: function () {

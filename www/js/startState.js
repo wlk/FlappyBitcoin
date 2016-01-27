@@ -27,11 +27,12 @@ var startState = {
         var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command','Bitcoin Bird', 28);
         title.anchor.setTo(0.5, 0.5);
 
-        this.startGame = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command','Start Game', 28);
-        this.startGame.anchor.setTo(0.5, 0.5);
-        this.startGame.inputEnabled = true;
-        this.startGame.events.onInputDown.add(this.startClicked, this);
+        var startGame = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command','Start Game', 28);
+        startGame.anchor.setTo(0.5, 0.5);
+        startGame.inputEnabled = true;
+        startGame.events.onInputDown.add(this.startClicked, this);
 
+        game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startClicked, this);
     },
 
     handleBackButton: function () {

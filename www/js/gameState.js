@@ -5,12 +5,14 @@ var gameState = {
     },
 
     create: function () {
+        ++game.sessionPlays;
+
         this.altcoins = game.add.group();
         this.altcoins.enableBody = true;
         this.altcoins.createMultiple(30, 'altcoins');
         this.altcoinsTimer = game.time.events.loop(1500, this.addRowOfAltcoins, this);
 
-        this.coin = game.add.sprite(100, game.world.height / 2, 'coin');
+        this.coin = game.add.sprite(100, game.world.height - 250 , 'coin');
 
         this.bottom = game.add.sprite(0, game.world.height - 10, 'bottom');
 
@@ -65,16 +67,18 @@ var gameState = {
     },
 
     update: function () {
-        this.altcoins.forEachAlive(function (p) {
-            this.checkPipeHit(this.coin, p);
-        }, this);
+        if(this.coin.alive){
+            this.altcoins.forEachAlive(function (p) {
+                this.checkPipeHit(this.coin, p);
+            }, this);
 
-        game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
-        game.physics.arcade.overlap(this.coin, this.bottom, this.handleDeath, null, this);
+            game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
+            game.physics.arcade.overlap(this.coin, this.bottom, this.handleDeath, null, this);
 
-        // Slowly rotate the coin downward, up to a certain point.
-        /*if (this.coin.angle < 10)
-         this.coin.angle += 1;*/
+            // Slowly rotate the coin downward, up to a certain point.
+            /*if (this.coin.angle < 10)
+             this.coin.angle += 1;*/
+        }
     },
 
     jump: function () {
@@ -128,6 +132,13 @@ var gameState = {
     },
 
     displayDeathMenu: function () {
+        if (game.sessionPlays >= 10 && game.sessionPlays % 10 == 0) {
+            if (AdMob) {
+                AdMob.showInterstitial();
+                AdMob.prepareInterstitial({adId: adMobId.interstitial, autoShow: false, isTesting: adMobId.isTesting});
+            }
+        }
+
         this.menu = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command', 'Game Over', 20);
 
         this.menu.anchor.setTo(0.5, 0.5);

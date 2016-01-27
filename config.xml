@@ -27,4 +27,5 @@
     <engine name="browser" spec="~4.0.0" />
     <preference name="Fullscreen" value="true" />
     <preference name="Orientation" value="landscape" />
+    <plugin name="cordova-plugin-admobpro" spec="~2.11.1" />
 </widget>

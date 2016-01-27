@@ -14,20 +14,25 @@ var startState = {
         game.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
 
 
-
         // Load the jump sound
         // game.load.audio('jump', 'assets/jump.wav');
 
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        game.sessionPlays = 0;
+
+        if (AdMob) {
+            AdMob.prepareInterstitial({adId: adMobId.interstitial, autoShow: false, isTesting: adMobId.isTesting});
+        }
     },
 
     create: function () {
-        var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command','Bitcoin Bird', 28);
+        var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command', 'Bitcoin Bird', 28);
         title.anchor.setTo(0.5, 0.5);
 
-        var startGame = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command','Start Game', 28);
+        var startGame = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command', 'Start Game', 28);
         startGame.anchor.setTo(0.5, 0.5);
         startGame.inputEnabled = true;
         startGame.events.onInputDown.add(this.startClicked, this);

@@ -8,6 +8,7 @@ var startState = {
         game.load.image('coin', 'assets/bitcoin.png');
         game.load.image('bottom', 'assets/bottom.png');
         game.load.image('top', 'assets/top.png');
+        game.load.image('menuButton', 'assets/button.png');
 
         game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');
 
@@ -32,11 +33,14 @@ var startState = {
         var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command', 'Bitcoin Bird', 28);
         title.anchor.setTo(0.5, 0.5);
 
-        var startGame = game.add.bitmapText(game.width / 2, game.height / 2, 'carrier_command', 'Start Game', 28);
-        startGame.anchor.setTo(0.5, 0.5);
-        startGame.inputEnabled = true;
-        startGame.events.onInputDown.add(this.startClicked, this);
 
+        var startGameButton = game.add.button(game.width / 2, game.height / 2, 'menuButton', this.startClicked, this);
+        startGameButton.anchor.setTo(0.5, 0.5);
+        startGameButton.buttonText = this.game.add.bitmapText(0, 0, 'carrier_command', 'Start', 20);
+        startGameButton.buttonText.anchor.setTo(0.5, 0.5);
+        startGameButton.buttonText.align = 'center';
+
+        startGameButton.addChild(startGameButton.buttonText);
         game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startClicked, this);
     },
 

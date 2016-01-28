@@ -5,6 +5,7 @@ var startState = {
     preload: function () {
         game.renderer.renderSession.roundPixels = true;
         game.time.desiredFps = 30;
+        game.forceSingleUpdate = true;
 
         game.stage.backgroundColor = '#71c5cf';
         game.load.image('coin', 'assets/bitcoin.png');

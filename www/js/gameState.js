@@ -145,6 +145,7 @@ var gameState = {
 
         if (this.score > game.topScore) {
             game.topScore = this.score;
+            localStorage.setItem('topScore', this.score);
         }
 
         if (typeof analytics !== 'undefined') {

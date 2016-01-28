@@ -26,7 +26,15 @@ var startState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         game.sessionPlays = 0;
-        game.topScore = 0;
+
+        if (!!localStorage) {
+            game.topScore = localStorage.getItem('topScore');
+            if (game.topScore === null) {
+                game.topScore = 0;
+            }
+        } else {
+            game.topScore = 0;
+        }
 
         if (AdMob) {
             AdMob.prepareInterstitial({adId: adMobId.interstitial, autoShow: false, isTesting: adMobId.isTesting});
@@ -39,6 +47,11 @@ var startState = {
 
         if (typeof analytics !== 'undefined') {
             analytics.trackEvent("game", "new game session");
+        }
+
+        if (game.topScore > 0) {
+            var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 100, 'carrier_command', 'Your Record: ' + game.topScore + " Points", 20);
+            yourRecordText.anchor.setTo(0.5, 0.5);
         }
 
         var startGameButton = game.add.button(game.width / 2, game.height / 2, 'menuButton', this.startClicked, this);

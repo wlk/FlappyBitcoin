@@ -37,6 +37,9 @@ var startState = {
         var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command', 'Bitcoin Bird', 28);
         title.anchor.setTo(0.5, 0.5);
 
+        if (typeof analytics !== 'undefined') {
+            analytics.trackEvent("game", "new game session");
+        }
 
         var startGameButton = game.add.button(game.width / 2, game.height / 2, 'menuButton', this.startClicked, this);
         startGameButton.anchor.setTo(0.5, 0.5);

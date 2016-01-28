@@ -28,4 +28,5 @@
     <preference name="Fullscreen" value="true" />
     <preference name="Orientation" value="landscape" />
     <plugin name="cordova-plugin-admobpro" spec="~2.11.1" />
+    <plugin name="cordova-plugin-google-analytics" spec="~0.8.1" />
 </widget>

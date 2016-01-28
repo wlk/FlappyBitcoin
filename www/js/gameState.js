@@ -7,6 +7,10 @@ var gameState = {
     create: function () {
         ++game.sessionPlays;
 
+        if (typeof analytics !== 'undefined') {
+            analytics.trackEvent("game", "new play");
+        }
+
         this.pointMarks = game.add.group();
         this.pointMarks.enableBody = true;
         this.pointMarks.createMultiple(4);
@@ -51,6 +55,10 @@ var gameState = {
 
     addPoint: function (bird, mark) {
         mark.kill();
+
+        if (typeof analytics !== 'undefined') {
+            analytics.trackEvent("game", "point");
+        }
 
         this.score += 1;
         this.labelScore.text = "Score: " + this.score;
@@ -137,6 +145,10 @@ var gameState = {
 
         if (this.score > game.topScore) {
             game.topScore = this.score;
+        }
+
+        if (typeof analytics !== 'undefined') {
+            analytics.trackEvent("game", "death", "points", this.score);
         }
 
         if (game.sessionPlays >= 10 && game.sessionPlays % 10 == 0) {

@@ -48,7 +48,7 @@ var gameState = {
         this.score = 0;
         this.labelScore = game.add.bitmapText(100, 20, 'carrier_command', 'Score: 0', 20);
 
-        if (game.topScore < 20) {
+        if (game.topScore < 1) {
             this.tutorialText = game.add.bitmapText(game.world.width / 2, game.world.height / 2, 'carrier_command', 'Touch to start flying', 20);
             this.tutorialText.anchor.setTo(0.5, 0.5);
 
@@ -105,7 +105,7 @@ var gameState = {
              this.coin.angle += 1;*/
         }
 
-        if (game.topScore < 20) {
+        if (game.topScore < 1) {
             if (this.taps == 1) {
                 this.coin.body.gravity.y = 1300;
                 this.coinTween.stop();

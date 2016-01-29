@@ -10,7 +10,6 @@ var startState = {
         game.stage.backgroundColor = '#71c5cf';
         game.load.image('coin', 'assets/bitcoin.png');
         game.load.image('bottom', 'assets/bottom.png');
-        game.load.image('top', 'assets/top.png');
         game.load.image('menuButton', 'assets/button.png');
 
         game.load.atlas('altcoins', 'assets/altcoins.png', 'assets/altcoins.json');

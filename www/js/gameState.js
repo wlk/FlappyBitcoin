@@ -11,6 +11,8 @@ var gameState = {
             analytics.trackEvent("game", "new play");
         }
 
+        this.taps = 0;
+
         this.pointMarks = game.add.group();
         this.pointMarks.enableBody = true;
         this.pointMarks.createMultiple(4);
@@ -20,7 +22,7 @@ var gameState = {
         this.altcoins.createMultiple(20, 'altcoins');
         this.altcoinsTimer = game.time.events.loop(1500, this.addRowOfAltcoins, this);
 
-        this.coin = game.add.sprite(100, game.world.height - 250, 'coin');
+        this.coin = game.add.sprite(100, game.world.height - 150, 'coin');
 
         this.bottom = game.add.sprite(0, game.world.height - 10, 'bottom');
 
@@ -32,8 +34,6 @@ var gameState = {
         game.physics.arcade.enable(this.bottom);
 
         this.bottom.body.immovable = true;
-
-        this.coin.body.gravity.y = 1300;
 
         // New anchor position
         this.coin.anchor.setTo(0.5, 0.5);
@@ -47,6 +47,21 @@ var gameState = {
 
         this.score = 0;
         this.labelScore = game.add.bitmapText(100, 20, 'carrier_command', 'Score: 0', 20);
+
+        if (game.topScore < 20) {
+            this.tutorialText = game.add.bitmapText(game.world.width / 2, game.world.height / 2, 'carrier_command', 'Touch to start flying', 20);
+            this.tutorialText.anchor.setTo(0.5, 0.5);
+
+            this.coinTween = game.add.tween(this.coin);
+            this.coinTween.to({y: game.world.height - 200}, 250, 'Linear', true, 0);
+            this.coinTween.yoyo(true);
+            this.coinTween.repeat(2);
+            this.coinTween.onComplete.add(function () {
+                this.taps++;
+            }, this);
+        } else {
+            this.coin.body.gravity.y = 1300;
+        }
     },
 
     handleBackButton: function () {
@@ -89,9 +104,20 @@ var gameState = {
             /*if (this.coin.angle < 10)
              this.coin.angle += 1;*/
         }
+
+        if (game.topScore < 20) {
+            if (this.taps == 1) {
+                this.coin.body.gravity.y = 1300;
+                this.coinTween.stop();
+                this.tutorialText.kill();
+            }
+            if (this.taps == 0) {
+            }
+        }
     },
 
     jump: function () {
+        this.taps++;
         // If the coin is dead, he can't jump
         if (!this.coin.alive)
             return;

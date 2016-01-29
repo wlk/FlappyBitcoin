@@ -125,7 +125,7 @@ var gameState = {
         // Set the alive property of the coin to false
         this.coin.alive = false;
         game.add.tween(this.coin).to({angle: 72}, 100).start();
-        //var delay = false ? Phaser.Timer.SECOND * 0.4 : 0;
+
         game.time.events.add(0, this.displayDeathMenu, this);
 
         // Prevent new altcoins from appearing

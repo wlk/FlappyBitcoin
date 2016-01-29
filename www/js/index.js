@@ -12,8 +12,8 @@ var app = {
     onDeviceReady: function () {
         game.state.start('start');
 
-        document.addEventListener("backbutton", function(e){
-            if(game.state.current === "start"){
+        document.addEventListener("backbutton", function (e) {
+            if (game.state.current === "start") {
                 startState.handleBackButton();
             } else {
                 gameState.handleBackButton();

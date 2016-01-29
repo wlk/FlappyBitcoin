@@ -47,7 +47,7 @@ var startState = {
         title.anchor.setTo(0.5, 0.5);
 
         if (typeof analytics !== 'undefined') {
-            analytics.trackEvent("game", "new game session");
+            analytics.trackView("Start Screen View");
         }
 
         if (game.topScore > 0) {

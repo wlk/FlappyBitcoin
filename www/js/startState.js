@@ -22,6 +22,7 @@ var startState = {
         // game.load.audio('jump', 'assets/jump.wav');
 
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.startFullScreen();
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 

@@ -160,17 +160,25 @@ var gameState = {
             }
         }
 
-        var menu = game.add.bitmapText(game.width / 2, game.height / 2 - 40, 'carrier_command', 'Game Over', 30);
+        var menu = game.add.bitmapText(game.width / 2, game.height / 2 - 70, 'carrier_command', 'Game Over', 30);
         menu.anchor.setTo(0.5, 0.5);
 
-        var scoreText = game.add.bitmapText(game.width / 2, game.height / 2 + 10, 'carrier_command', 'Score: ' + this.score, 20);
+        var scoreText = game.add.bitmapText(game.width / 2, game.height / 2 - 20, 'carrier_command', 'Score: ' + this.score, 20);
         scoreText.anchor.setTo(0.5, 0.5);
 
         if (game.topScore > 0) {
-            var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 50, 'carrier_command', 'Record: ' + game.topScore, 20);
+            var yourRecordText = game.add.bitmapText(game.width / 2, game.height / 2 + 20, 'carrier_command', 'Record: ' + game.topScore, 20);
             yourRecordText.anchor.setTo(0.5, 0.5);
         }
-        game.input.onDown.add(this.continueAfterDeath, this);
+        //game.input.onDown.add(this.continueAfterDeath, this);
+
+        var restartGameButton = game.add.button(game.width / 2, game.height - 80, 'menuButton', this.continueAfterDeath, this);
+        restartGameButton.anchor.setTo(0.5, 0.5);
+        restartGameButton.buttonText = this.game.add.bitmapText(0, 0, 'carrier_command', 'Restart', 20);
+        restartGameButton.buttonText.anchor.setTo(0.5, 0.5);
+        restartGameButton.buttonText.align = 'center';
+        restartGameButton.addChild(restartGameButton.buttonText);
+
         game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.continueAfterDeath, this);
     },
 

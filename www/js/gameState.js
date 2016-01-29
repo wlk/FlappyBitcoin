@@ -78,9 +78,10 @@ var gameState = {
             game.physics.arcade.overlap(this.coin, this.pointMarks, this.addPoint, null, this);
             game.physics.arcade.overlap(this.coin, this.bottom, this.handleDeath, null, this);
 
-            var coinCircle = new Phaser.Circle(this.coin.x, this.coin.y, this.coin.width);
             this.altcoins.forEachAlive(function (p) {
-                this.checkPipeHit(coinCircle, p);
+                if (Math.abs(this.coin.x - p.x) <= 50 && Math.abs(this.coin.y - p.y) <= 50) { // first level of collision checking
+                    this.checkPipeHit(this.coin, p); // more detailed collision checking
+                }
             }, this);
 
 
@@ -104,15 +105,15 @@ var gameState = {
         // this.jumpSound.play();
     },
 
-    areColliding: function (coinCircle, altcoin) {
+    areColliding: function (coin, altcoin) {
         return Phaser.Circle.intersects(
-            coinCircle,
+            new Phaser.Circle(coin.x, coin.y, coin.width),
             new Phaser.Circle(altcoin.x + 25, altcoin.y + 25, altcoin.width)
         );
     },
 
-    checkPipeHit: function (coinCircle, pipe) {
-        if (this.areColliding(coinCircle, pipe)) {
+    checkPipeHit: function (coin, pipe) {
+        if (this.areColliding(coin, pipe)) {
             // If the coin has already hit a pipe, we have nothing to do
             if (this.coin.alive) {
                 this.handleDeath();

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.varwise.bitcoinbird" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Bitcoin Bird</name>
+<widget id="com.varwise.bitcoinbird" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Flappy Bitcoin</name>
     <description>
         You have to fly through the map and avoid obstacles (altcoins) - for each altcoin row avoided you earn 1 point
     </description>

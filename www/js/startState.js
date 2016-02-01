@@ -42,7 +42,7 @@ var startState = {
     },
 
     create: function () {
-        var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command', 'Bitcoin Bird', 28);
+        var title = game.add.bitmapText(game.width / 2, game.height / 2 - 100, 'carrier_command', 'Flappy Bitcoin', 28);
         title.anchor.setTo(0.5, 0.5);
 
         if (typeof analytics !== 'undefined') {
